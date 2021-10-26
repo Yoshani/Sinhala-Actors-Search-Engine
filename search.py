@@ -49,7 +49,7 @@ def search_query(search_term):
     results = 'Nothing matched your search!'
     if select_type == -1:  # query eg: "සාරංග දිසාසේකර"
         results = search_text_multi_match(search_term, select_type)
-    elif select_type == 0:  # query eg: "සාරංග කියන්නේ කවුද?"
+    elif select_type == 0:  # query eg: "සාරංග දිසාසේකරගේ දෙමාපියන් කවුද?"
         if strip_term:
             results = search_text_multi_match(strip_term, select_type)
         else:
@@ -75,7 +75,7 @@ def search_query_faceted(search_term, actors_filter, gender_filter):
     results = 'Nothing matched your search!'
     if select_type == -1:  # query eg: "සාරංග දිසාසේකර"
         results = search_text_multi_match_faceted(search_term, select_type, actors_filter, gender_filter)
-    elif select_type == 0:  # query eg: "සාරංග කියන්නේ කවුද?"
+    elif select_type == 0:  # query eg: "සාරංග දිසාසේකරගේ දෙමාපියන් කවුද?"
         if strip_term:
             results = search_text_multi_match_faceted(strip_term, select_type, actors_filter, gender_filter)
         else:
@@ -133,7 +133,9 @@ def post_processing_text(results, field_intent):
     names = results['aggregations']['name']['buckets']
     gender = results['aggregations']['gender']['buckets']
 
-    if field_intent:
+    print(names)
+
+    if field_intent and len(list_actors) > 0:
         field_intent = translate_to_sinhala(field_intent)
         field_intent = list_actors[0]['නම'] + " / " + field_intent
 
