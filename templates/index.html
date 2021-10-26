@@ -1,0 +1,105 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body style="padding-left: 5em; padding-top: 1em">
+  <div class="row" style="margin-left: auto; margin-right: auto;">
+    <form action="http://localhost:5000/" method="post" class="row">
+        <div class="col">
+          <p><input class="border border-warn" type="text" name="search" placeholder="ටයිප් කරන්න..." value="{{search_value}}"
+                    style="width: 50em; height: 3em; padding: 1em; background-color: #FFEBCD; border-radius: 3px"/></p>
+        </div>
+        <div class="col">
+          <p><input class="btn btn-success" type="submit" value="Search" name="form_1"
+                    style="margin-left: 60px; padding: 7px 50px 7px 50px; font-size: 20px"/></p>
+        </div>
+    </form>
+  </div>
+
+  {% if field_intent_value != '' %}
+  <div class="row">
+    <div class="col">
+
+      <div class="card border border-primary mb-3" style="width: 50rem;">
+        <div class="card-body">
+          <p> <b>{{field_intent}}:</b></p>
+          {{field_intent_value}}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col">
+        {% for each in actors %}
+        <div class="card border-dark mb-3" style="width: 50rem;">
+          <div class="card-body">
+            {% for key, value in each.items() %}
+            <ul class="list-group list-group-flush">
+<!--              {% if key[-3:] != '_en' %}-->
+              <li class="list-group-item">{{ key }} : {{ value}}</li>
+<!--              {% endif %}-->
+            </ul>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col">
+      {% if names != '' %}
+      <form action="http://localhost:5000/" method="post" style=>
+        <div class="col-sm-6">
+          <div class="card" style="width: 30rem;">
+            <div class="card-body">
+              <h5 class="card-title">නළුවන්</h5>
+              <div class="form-check">
+                {% for each in names %}
+                <input class="form-check-input" type="checkbox" name="{{each.key}}">
+                <label class="form-check-label" id="gridCheck1" for="gridCheck1">
+                  {{each.key}} ({{each.doc_count}})
+                </label>
+                <br>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="card" style="width: 30rem;">
+            <div class="card-body">
+              <h5 class="card-title">ස්ත්‍රී පුරුශභාවය</h5>
+              <div class="form-check">
+                {% for each in gender %}
+                <input class="form-check-input" type="checkbox" name="{{each.key}}">
+                <label class="form-check-label" id="gridCheck2" for="gridCheck2">
+                  {{each.key}} ({{each.doc_count}})
+                </label>
+                <br>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <br>
+          <p><input class="btn btn-primary" type="submit" value="Filter" name="form_2" /></p>
+        </div>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>
