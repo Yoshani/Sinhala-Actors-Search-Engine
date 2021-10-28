@@ -72,7 +72,7 @@ Advanced features
   * After preprocessing the query is passed to an intent classification unit to extract the user intent. Here the intent can be related to the 4 types of queries supported by the system.Word tokenization and text vectorization and cosine distance are used to classify intentents.<br /> 
 <br /> 
 * Faceted Search
-  *Faceted search is supported for actor name and gender where the returned results can be filtered by them.<br /> 
+  * Faceted search is supported for actor name and gender where the returned results can be filtered by them. <br />
 <br /> 
 * Synonyms support
   * Synonyms support is guaranteed where for field-filtered queries the user may use synonyms such as අධ්‍යාපනය, පාසල, etc. and they will all map to the same result. Also the top search queries can use words such as හොඳ, ජනප්‍රිය, ප්‍රසිද්ධ instead of just හොඳම.<br /> 
