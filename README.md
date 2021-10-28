@@ -50,7 +50,7 @@ aggregated dataset containing all required actor information is generated
 Elasticsearch was used for indexing and querying where the standard indexing methods, mapping and the analyzer of Elasticsearch were used. The user query is first pre-processed and passed through an intent classification unit where the intent of the query is identified. Then the related search query is executed. The user may override the predefined size of results using the query. The types of queries supported fall under the following 4 categories.
 
 ```
-* Type 1: Field filtered multi-match queries (eg: සාරංගගේ පෞද්ගලික තොරතුරු, සාරංග කොහෙද පාසල් ගියේ?, සාරංගගේ උපන් දිනය කුමක්ද?)
+* Type 1: Field filtered multi-match queries (eg: සාරංගගේ උපන් දිනය කුමක්ද?)
 
 * Type 2: Top search queries (eg: හොඳම නළුවන් සහ නිළියන් 10 දෙනා, ජනප්‍රියම නිළියන් 10 දෙනා)
 
