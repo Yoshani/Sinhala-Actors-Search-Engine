@@ -63,7 +63,7 @@ For more example queries, refer to ```queries.txt``` file
 
 ## Advanced Features
 
-Advanced features
+The following advanced features were integrated
 
 * Text mining and text preprocessing 
   * User search queries are preprocessed prior to intent classification. For field-filtered queries, stop words and punctuation are removed to obtain the keywords. During the post processing phase the extracted data is cleaned and processed to be displayed on the web app.<br /> 
