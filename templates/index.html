@@ -89,14 +89,14 @@
       {% endif %}
     </div>
   </div>
-<!--  {% else %}-->
-<!--  <div>-->
-<!--    <div class="card border-dark mb-3" style="width: 50rem;">-->
-<!--          <div class="card-body">-->
-<!--            <p style="font-size: 40px">ප්‍රතිඵල නොමැත</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--  </div>-->
+  {% elif mode == 'no_results' %}
+  <div>
+    <div class="card" style="width: 50rem;">
+          <div class="card-body">
+            <p style="font-size: 40px">ප්‍රතිඵල නොමැත</p>
+          </div>
+        </div>
+  </div>
   {% endif %}
 
 

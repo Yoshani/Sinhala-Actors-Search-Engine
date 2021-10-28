@@ -15,7 +15,6 @@ global_gender = []
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-
     global global_search
     global global_names
     global global_gender
@@ -43,9 +42,10 @@ def index():
                     gender_filter.append(i["key"])
             list_actors = search_query_faceted(search, names_filter, gender_filter)
         return render_template('index.html', search_value=global_search, actors=list_actors, names=global_names,
-                               gender=global_gender, field_intent=field_intent, field_intent_value=field_intent_value)
+                               gender=global_gender, field_intent=field_intent, field_intent_value=field_intent_value,
+                               mode='no_results')
     return render_template('index.html', search_value='', actors='', names='', gender='',
-                           field_intent='', field_intent_value='')
+                           field_intent='', field_intent_value='', mode='init')
 
 
 if __name__ == "__main__":

@@ -133,8 +133,6 @@ def post_processing_text(results, field_intent):
     names = results['aggregations']['name']['buckets']
     gender = results['aggregations']['gender']['buckets']
 
-    print(names)
-
     if field_intent and len(list_actors) > 0:
         field_intent = translate_to_sinhala(field_intent)
         field_intent = list_actors[0]['නම'] + " / " + field_intent
@@ -331,7 +329,11 @@ def top_match(search_term, field_intent):
                 "name": {
                     "terms": {
                         "field": "name_si.keyword",
-                        "size": size
+                        "size": size,
+                        "order": {"max_views": "desc"}
+                    },
+                    "aggs": {
+                        "max_views": {"max": {"field": "views"}}
                     }
                 },
                 "gender": {
@@ -359,7 +361,11 @@ def top_match(search_term, field_intent):
                 "name": {
                     "terms": {
                         "field": "name_si.keyword",
-                        "size": size
+                        "size": size,
+                        "order": {"max_views": "desc"}
+                    },
+                    "aggs": {
+                        "max_views": {"max": {"field": "views"}}
                     }
                 },
                 "gender": {
@@ -536,7 +542,11 @@ def top_match_faceted(search_term, field_intent, actors_filter, gender_filter):
                 "name": {
                     "terms": {
                         "field": "name_si.keyword",
-                        "size": size
+                        "size": size,
+                        "order": {"max_views": "desc"}
+                    },
+                    "aggs": {
+                        "max_views": {"max": {"field": "views"}}
                     }
                 },
                 "gender": {
@@ -571,7 +581,11 @@ def top_match_faceted(search_term, field_intent, actors_filter, gender_filter):
                 "name": {
                     "terms": {
                         "field": "name_si.keyword",
-                        "size": size
+                        "size": size,
+                        "order": {"max_views": "desc"}
+                    },
+                    "aggs": {
+                        "max_views": {"max": {"field": "views"}}
                     }
                 },
                 "gender": {
