@@ -64,16 +64,16 @@ For more example queries, refer to ```queries.txt``` file
 The following advanced features were integrated
 
 * Text mining and text preprocessing 
-  * User search queries are preprocessed prior to intent classification. For field-filtered queries, stop words and punctuation are removed to obtain the keywords. During the post processing phase the extracted data is cleaned and processed to be displayed on the web app.<br /> 
+  * User search queries are preprocessed prior to intent classification. For field-filtered queries, stop words and punctuation are removed to obtain the keywords. Spell correction is also done. During the post processing phase the extracted data is cleaned and processed to be displayed on the web app.<br /> 
   <br /> 
 * Intent Classification 
-  * After preprocessing the query is passed to an intent classification unit to extract the user intent. Here the intent can be related to the 4 types of queries supported by the system.Word tokenization and text vectorization and cosine distance are used to classify intentents.<br /> 
+  * After preprocessing, the query is passed to an intent classification unit to extract the user intent. Here the intent can be related to the 4 types of queries supported by the system. Word tokenization, TF-IDF vectorization and cosine similarity are used to classify intents.<br /> 
   <br /> 
 * Faceted Search
-  * Faceted search is supported for actor name and gender where the returned results can be filtered by them.<br />
+  * Faceted search is supported for actor name and gender where the returned results can be filtered using facets displayed on the web app.<br />
   <br /> 
 * Synonyms support
-  * Synonyms support is guaranteed where for field-filtered queries the user may use synonyms such as අධ්‍යාපනය, පාසල, etc. and they will all map to the same result. Also the top search queries can use words such as හොඳ, ජනප්‍රිය, ප්‍රසිද්ධ instead of just හොඳම.<br /> 
+  * Synonyms support is guaranteed where analogous queries such as ‘සාරංග දිසාසේකර කොහෙද පාසල් ගියේ?’ and ‘සාරංග දිසාසේකර ඉගෙනගත්තේ කොහේද?’ will map to the same result. Also the top search queries can use similar words such as හොඳ, ජනප්‍රිය, ප්‍රසිද්ධ, etc.<br /> 
   <br /> 
 * Resistance to simple spelling errors
   * The use of TF-IDF vectorization and cosine similarity calculation ensures that simple spelling errors generate the same result as expected.
