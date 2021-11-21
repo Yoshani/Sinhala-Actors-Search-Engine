@@ -36,10 +36,12 @@ Each actor entry contains the following data fields. <br /> All text fields are 
 
 ## Data Scraping
 
-The data scraping process was done starting from the Wikipedia page [List of Sri Lankan actors - Wikipedia](https://en.wikipedia.org/wiki/List_of_Sri_Lankan_actors)
+The data scraping process was done starting from the Wikipedia page [List of Sri Lankan actors - Wikipedia](https://en.wikipedia.org/wiki/List_of_Sri_Lankan_actors).
 The Python package BeautifulSoup was used for parsing HTML documents. Next, the scraped data was processed and refined using both simple techniques such as replacements and complex methods using regex expressions. The cleaned data that is produced during the text processing phase is then passed into the translator to be translated into Sinhala. Here both translation and transliteration takes place. Then the translated data is post processed to create the data in necessary formats and the final aggregated dataset containing all required actor information is generated.
 
 Note: The scraper code in ```scraper.py``` was originally written and executed in Google Colaboratory. You can visit it [here](https://colab.research.google.com/drive/1EQsLLQgj6U7eADus8jw39x4NE2BcIjce?usp=sharing) 
+
+![](images/Scraping.png)
 
 ## Search Process
 
@@ -76,3 +78,4 @@ The following advanced features were integrated
 * Resistance to simple spelling errors
   * The use of TF-IDF vectorization and cosine similarity calculation ensures that simple spelling errors generate the same result as expected.
 
+![](images/Searching.jpg)
