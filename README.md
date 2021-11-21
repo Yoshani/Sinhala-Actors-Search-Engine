@@ -36,7 +36,7 @@ Each actor entry contains the following data fields. <br /> All text fields are 
 
 ## Data Scraping
 
-The data scraping process was done starting from the Wikipedia page [List of Sri Lankan actors - Wikipedia](https://en.wikipedia.org/wiki/List_of_Sri_Lankan_actors)
+The data scraping process was done starting from the Wikipedia page [List of Sri Lankan actors - Wikipedia](https://en.wikipedia.org/wiki/List_of_Sri_Lankan_actors).
 The Python package BeautifulSoup was used for parsing HTML documents.
 Next, the scraped data was processed and refined using both simple techniques 
 such as replacements and complex methods using regex expressions.

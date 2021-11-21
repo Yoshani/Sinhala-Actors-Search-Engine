@@ -13,7 +13,7 @@ from google.colab import files
 
 '''
 ** The following code was written to be run on Google Colaboratory
-The code can be found at: https://colab.research.google.com/drive/1EQsLLQgj6U7eADus8jw39x4NE2BcIjce?usp=sharing
+The original code can be found at: https://colab.research.google.com/drive/1EQsLLQgj6U7eADus8jw39x4NE2BcIjce?usp=sharing
 '''
 
 wikipedia.set_lang("en")
