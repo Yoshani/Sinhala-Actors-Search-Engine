@@ -78,4 +78,4 @@ The following advanced features were integrated
 * Resistance to simple spelling errors
   * The use of TF-IDF vectorization and cosine similarity calculation ensures that simple spelling errors generate the same result as expected.
 
-![](images/Searching.jpg)
+![](images/Search.jpg)
