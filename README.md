@@ -39,13 +39,13 @@ Each actor entry contains the following data fields. <br /> All text fields are 
 The data scraping process was done starting from the Wikipedia page [List of Sri Lankan actors - Wikipedia](https://en.wikipedia.org/wiki/List_of_Sri_Lankan_actors).
 The Python package BeautifulSoup was used for parsing HTML documents. Next, the scraped data was processed and refined using both simple techniques such as replacements and complex methods using regex expressions. The cleaned data that is produced during the text processing phase is then passed into the translator to be translated into Sinhala. Here both translation and transliteration takes place. Then the translated data is post processed to create the data in necessary formats and the final aggregated dataset containing all required actor information is generated.
 
-Note: The scraper code in ```scraper.py``` was originally written and executed in Google Colaboratory. You can visit it [here](https://colab.research.google.com/drive/1EQsLLQgj6U7eADus8jw39x4NE2BcIjce?usp=sharing) 
+Note: The scraper code in ```scraper.py``` was originally written and executed in Google Colaboratory. You can visit it [here](https://colab.research.google.com/drive/1EQsLLQgj6U7eADus8jw39x4NE2BcIjce?usp=sharing). 
 
 ![](images/Scraping.png)
 
 ## Search Process
 
-Elasticsearch was used for indexing and querying where the standard indexing methods, mapping and the analyzer of Elasticsearch were used. The user query is first pre-processed and passed through an intent classification unit where the intent of the query is identified. Then the related search query is executed. The user may override the predefined size of results using the query. The types of queries supported fall under the following 4 categories.
+Elasticsearch was used for indexing and querying where the standard indexing methods, mapping and the analyzer of Elasticsearch were used. The user query is first pre-processed and passed through an intent classification unit where the intent of the query is identified. Inside the intent classifier, stop words are removed. Then the similarity of the resulting query words is checked against a list of synonyms using TF-IDF vectorization and cosine similarity. Using the intent classifier results, the related search query is first checked for spelling corrections, then converted to Elasticsearch query DSL. The user may override the predefined size of results using the query. The final processed query including facet filters, if any, is executed in Elasticsearch search engine. The types of queries supported fall under the following 4 categories.
 
 ```
 * Type 1: Field filtered multi-match queries (eg: සාරංගගේ පෞද්ගලික තොරතුරු, සාරංග කොහෙද පාසල් ගියේ?, සාරංගගේ උපන් දිනය කුමක්ද?)
