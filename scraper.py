@@ -51,16 +51,12 @@ url = 'https://en.wikipedia.org/wiki/List_of_Sri_Lankan_actors'
 html = urlopen(url)
 soup = BeautifulSoup(html, 'html.parser')
 
-names = []
-dobs = []
-summary = []
-personal_life = []
-education = []
-parents = []
-career = []
-films = []
-views = []
-genders = []
+# base links
+actors_links = []
+# original data
+names_orig, dobs_orig, summary_orig, personal_life_orig, education_orig, parents_orig, career_orig, films_orig, views_orig, genders_orig = [], [], [], [], [], [], [], [], [], []
+# processed data
+names, dobs, summary, personal_life, education, parents, career, films, views, genders = [], [], [], [], [], [], [], [], [], []
 
 # Get all the links
 allLinks = soup.find(id="bodyContent").find_all("a", {'href': True})
@@ -80,27 +76,35 @@ for link in allLinks:
     actorSoup = BeautifulSoup(request_href.content, 'html.parser')
 
     # remove unnecessary links
-    if actorSoup.find(id='Personal_life') is None:
+    if actorSoup.find(id='Personal_life') == None:
         continue
+
+    actors_links.append(base_url + linkToScrape['href'])
 
     # get the name
     name = actorSoup.find(id="firstHeading").text.strip()
     names.append(name)
+    names_orig.append(name)
 
     # get dob
     dob = actorSoup.find('span', {'class': 'bday'})
-    if dob is not None:
+    if dob != None:
+        dob_orig = dob.text.strip()
         dob = dob.text.strip()
     else:
         dob = '1990-09-09'  # append dummy value for ES indexing
+        dob_orig = None
     dobs.append(dob)
+    dobs_orig.append(dob_orig)
 
     # get summary
     summary_text = wikipedia.WikipediaPage(name).summary
+    summary_orig.append(summary_text)
     summary.append(removeAllBrackets(summary_text))
 
     # get personal life
     personal_life_text = wikipedia.WikipediaPage(name).section('Personal life')
+    personal_life_orig.append(personal_life_text)
     personal_life_text = removeAllBrackets(personal_life_text)
     personal_life_split = personal_life_text.split('.')
     personal_life.append('.'.join(personal_life_split[0:6]))  # list only first 6 sentences to avoid lengthy text
@@ -108,48 +112,56 @@ for link in allLinks:
     # get education/parents
     school = None
     parent = None
+    school_orig = None
+    parent_orig = None
     table = actorSoup.find('table', {'class': 'infobox biography vcard'})
-    if table is not None:
+    if table != None:
         ths = table.find_all('th')
         for th in ths:
             tag = th.text.strip()
-            if tag == "Education":
+            if (tag == "Education"):
+                school_orig = th.nextSibling.text
                 school = removeSquareBrackets(th.nextSibling.text)
                 school = school.split('\n')
                 if '' in school: school.remove('')
                 school = ','.join(school)
-            if tag == "Parents" or tag == "Parent(s)":
+            if (tag == "Parents" or tag == "Parent(s)"):
+                parent_orig = th.nextSibling.text
                 parent = removeSquareBrackets(th.nextSibling.text)
 
     education.append(school)
+    education_orig.append(school_orig)
     parents.append(parent)
+    parents_orig.append(parent_orig)
 
     # get career
     career_text = wikipedia.WikipediaPage(name).section('Career')  # wikipedia has career listed under several headings
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('Acting career')
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('Cinema career')
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('Theatre career')
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('Television career')
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('Film career')
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('Golden career')
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('Theater work')
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('Filmography')
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('Early days')
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('as an actor')
-    if career_text is None or career_text == '':
+    if career_text == None or career_text == '':
         career_text = wikipedia.WikipediaPage(name).section('Drama career')
 
-    if career_text is not None:
+    career_orig.append(career_text)
+
+    if career_text != None:
         career_text = removeAllBrackets(career_text)
         career_split = career_text.split('.')
         career_text = '.'.join(career_split[0:6])
@@ -183,6 +195,7 @@ for link in allLinks:
                 actor_films.append(film)
 
     actor_films = list(set(actor_films))
+    films_orig.append(','.join(actor_films))
     if '' in actor_films: actor_films.remove('')
     if '–' in actor_films: actor_films.remove('–')
     if len(actor_films) > 10:
@@ -198,6 +211,7 @@ for link in allLinks:
     infoSoup = BeautifulSoup(info_request_href.content, 'html.parser')
     page_views = infoSoup.find('div', {'class': "mw-pvi-month"}).text.strip()
     views.append(page_views)
+    views_orig.append(page_views)
 
     # get gender
     wiki_data_link = infoSoup.find('a', {'class': "extiw wb-entity-link external"})['href']
@@ -210,22 +224,35 @@ for link in allLinks:
         if strip == "male" or strip == "female":
             gender = strip
             genders.append(gender)
+            genders_orig.append(gender)
             break
 
-# create dataframe with English data
-dic = {"names_en": names, "birthday": dobs, "gender_en": genders, "summary_en": summary,
-       "personal_info_en": personal_life,
+# create dataframe with original data
+dic_orig = {"link": actors_links, "name": names_orig, "birthday": dobs_orig, "gender": genders_orig, "summary": summary_orig, "personal_info": personal_life_orig,
+       "parents": parents_orig, "education": education_orig, "career": career_orig, "movies": films_orig, "views": views_orig}
+df_orig = pd.DataFrame(dic_orig)
+df_orig.head()
+
+
+# create dataframe with links
+df_links = pd.DataFrame({"link": actors_links})
+df_links.head()
+
+
+# create processed dataframe with English data
+dic = {"names_en": names, "birthday": dobs, "gender_en": genders, "summary_en": summary, "personal_info_en": personal_life,
        "parents_en": parents, "education_en": education, "career_en": career, "movies_en": films, "views": views}
 df_en = pd.DataFrame(dic)
 df_en = df_en.replace('', None)
 df_en.head()
+
 
 # translate to Sinhala
 
 translator = Translator()
 
 df_si = df_en.copy()
-df_si.drop(['birthday', 'views'], axis='columns', inplace=True)  # columns that need not be translated
+df_si.drop(['birthday', 'views'], axis='columns', inplace=True) # columns that need not be translated
 
 translations = {}
 for column in df_si.columns:
@@ -234,12 +261,13 @@ for column in df_si.columns:
     for element in unique_elements:
         # add translation to the dictionary
         if element != None:
-            translations[element] = translate_to_sinhala(element)
+          translations[element] = translate_to_sinhala(element)
 
 # modify all the terms of the data frame by using the previously created dictionary
-df_si.replace(translations, inplace=True)
+df_si.replace(translations, inplace = True)
 df_si.columns = df_si.columns.str.replace("_en", "_si")
 df_si.head()
+
 
 # merge and rearrange
 df = pd.concat([df_en, df_si], axis=1)
@@ -248,10 +276,20 @@ df = df[["names_si", "names_en", "birthday", "gender_si", "gender_en", "summary_
          "education_si", "education_en", "career_si", "career_en", "movies_si", "movies_en", "views"]]
 df.head()
 
-# output csv
+
+# output original csv
+df_orig.to_csv('actors_original.csv', index=False)
+files.download('actors_original.csv')
+
+# output links csv
+df_links.to_csv('actors_links.csv', index=False)
+files.download('actors_links.csv')
+
+# output processed csv
 df.to_csv('actors.csv', index=False)
 files.download('actors.csv')
 
+# create meta data
 names_si = df['names_si'].tolist()
 names_en = df['names_en'].tolist()
 meta_data = {'actors_si': names_si, 'actors_en': names_en}
