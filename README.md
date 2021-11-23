@@ -52,9 +52,9 @@ Elasticsearch was used for indexing and querying where the standard indexing met
 
 * Type 2: Top search queries (eg: හොඳම නළුවන් සහ නිළියන් 10 දෙනා, ජනප්‍රියම නිළියන් 10 දෙනා)
 
-* Type 3: Phrase queries (eg: "පබා", "මල් හතයි")
+* Type 3: Phrase queries (eg: "තරුණ චූටි", "මල් හතයි")
 
-* Type 4: Open type multi-match queries (eg: සාරංග දිසාසේකර, මල් හතයි)
+* Type 4: Open type multi-match queries (eg: සාරංග දිසාසේකර, මල් හතයි, පබා)
 ```
 
 For more example queries, refer to ```queries.txt``` file
