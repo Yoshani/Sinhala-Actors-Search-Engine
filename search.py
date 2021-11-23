@@ -234,7 +234,6 @@ def search_text_multi_match(search_term, select_type):
         english_term = translate_to_english(search_term)
     else:
         english_term = search_term
-    print(english_term)
 
     f = io.open('C:\\Yoshi\\My Aca\\Data Mining\\IR\\Project\\SearchActors\\actor_corpus\\actor_meta_all.json',
                 mode="r",
@@ -247,7 +246,6 @@ def search_text_multi_match(search_term, select_type):
     documents_actors.extend(actors_list)
 
     term_list = english_term.split()
-    print(term_list)
 
     similarity_list = check_similarity(documents_actors)  # check if entered term is listed in actor names
 
@@ -255,9 +253,9 @@ def search_text_multi_match(search_term, select_type):
     if max_val > 0.85:
         loc = np.where(similarity_list == max_val)
         i = loc[0][0]
-        print(actors_list[i])
         query_term = actors_list[i]  # if name is found, search for that to avoid spelling errors
 
+    print("Searched in index: ", query_term)
     results = es.search(index=Config.index.value, body={
         "size": 100,
         "query": {
@@ -285,6 +283,7 @@ def search_text_multi_match(search_term, select_type):
 
 
 def search_text_phrase_match(search_term):
+    print("Searched in index: ", search_term)
     results = es.search(index=Config.index.value, body={
         "size": 100,
         "query": {
@@ -313,9 +312,9 @@ def search_text_phrase_match(search_term):
 def top_match(search_term, field_intent):
     size = 100
     term_list = search_term.split()
-    print(term_list)
+    print("top match search terms: ", term_list)
     size = [int(i) for i in term_list if i.isnumeric()][0]
-    print(size)
+    print("size: ", size)
     if field_intent == "all":
         results = es.search(index=Config.index.value, body={
             "size": size,
@@ -388,8 +387,6 @@ def search_text_multi_match_faceted(search_term, select_type, actors_filter, gen
         english_term = translate_to_english(search_term)
     else:
         english_term = search_term
-    print(english_term)
-    print(actors_filter)
 
     f = io.open('C:\\Yoshi\\My Aca\\Data Mining\\IR\\Project\\SearchActors\\actor_corpus\\actor_meta_all.json',
                 mode="r",
@@ -402,7 +399,6 @@ def search_text_multi_match_faceted(search_term, select_type, actors_filter, gen
     documents_actors.extend(actors_list)
 
     term_list = english_term.split()
-    print(term_list)
 
     similarity_list = check_similarity(documents_actors)
 
@@ -410,7 +406,6 @@ def search_text_multi_match_faceted(search_term, select_type, actors_filter, gen
     if max_val > 0.85:
         loc = np.where(similarity_list == max_val)
         i = loc[0][0]
-        print(actors_list[i])
         query_term = actors_list[i]  # if name is found, search for that to avoid spelling errors
 
     # form filtered query
@@ -423,6 +418,7 @@ def search_text_multi_match_faceted(search_term, select_type, actors_filter, gen
         for i in gender_filter:
             should_list.append({"match": {"gender_si": i}})
 
+    print("Searched in index: ", query_term)
     results = es.search(index=Config.index.value, body={
         "size": 100,
         "query": {
@@ -469,6 +465,7 @@ def search_text_phrase_match_faceted(search_term, actors_filter, gender_filter):
         for i in gender_filter:
             should_list.append({"match": {"gender_si": i}})
 
+    print("Searched in index: ", search_term)
     results = es.search(index=Config.index.value, body={
         "size": 100,
         "query": {
@@ -506,7 +503,7 @@ def search_text_phrase_match_faceted(search_term, actors_filter, gender_filter):
 def top_match_faceted(search_term, field_intent, actors_filter, gender_filter):
     size = 100
     term_list = search_term.split()
-    print(term_list)
+    print("top match search terms: ", term_list)
     size = [int(i) for i in term_list if i.isnumeric()][0]
 
     # form filtered query
